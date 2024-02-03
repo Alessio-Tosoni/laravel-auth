@@ -44,9 +44,11 @@ class PostController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Post $post)
+    public function show(string $id)
     {
-        //
+        $dettaglio = Post::find($id);
+
+       return view("admin.posts.show", compact("dettaglio"));
     }
 
     /**
@@ -54,7 +56,7 @@ class PostController extends Controller
      */
     public function edit(Post $post)
     {
-        //
+        return view("admin.posts.edit", compact("post"));
     }
 
     /**
@@ -62,7 +64,13 @@ class PostController extends Controller
      */
     public function update(PostRequest $request, Post $post)
     {
-        //
+        $data= $request->all();
+
+        $post->name = $data['name'];
+        $post->description = $data['description'];
+        $post->update();
+
+        return redirect()->route('admin.posts.show', $post->id);
     }
 
     /**
@@ -70,6 +78,7 @@ class PostController extends Controller
      */
     public function destroy(Post $post)
     {
-        //
-    }
+        $post->delete();
+
+        return redirect()->route('admin.posts.index');    }
 }

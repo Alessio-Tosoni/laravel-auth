@@ -11,7 +11,22 @@
                             <h6 class="card-subtitle mb-2 text-muted">
                                 {{ $post->category ? $post->category->name : 'senza categoria' }}
                             </h6>
-                            <div class="card-body">{{ $post->description }}</div>
+                            <div class="card-body">
+                                {{ $post->description }}
+                                <div class="d-flex justify-content-evenly">
+                                    <div class=" mx-1">
+                                        <a href="{{ route("admin.posts.show", $post->id) }}" class="btn btn-primary">Dettaglio</a>
+                                    </div>
+                                    <div class=" mx-1">
+                                        <a href="{{ route("admin.posts.edit", $post->id) }}" class="btn btn-warning">Modifica</a>
+                                    </div>
+                                    <form action="{{ route('admin.posts.destroy', $post->id) }}" method="POST" class="d-inline-block">
+                                        @csrf
+                                        @method('DELETE')
+                                        <input type="submit" value="Cancella" class="btn btn-danger">
+                                    </form>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 @endforeach
